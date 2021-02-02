@@ -7,46 +7,57 @@ public class Item {
 
     public int sellIn;
 
-    public int quality;
+    public int quality; 
 	 
     /* Kirti changes
-     *  this needs to be public for the testing	
+     *  this needs to be public for the testing	 
 	private String name; //name
     private int sellIn; //no of days
-    private int quality; //value
-	*/
-    public Item(String name, int sellIn, int quality) {    	
+    private int quality; //value */
+	
+    public Item(String name, int sellIn, int quality) {  
+    	if(name.contains("Sulfuras"))
+    	{        	
         this.name = name;
-        this.sellIn = sellIn;
-        this.quality = quality;
+        this.sellIn = 0;
+        this.quality = 80;
+    	}
+    	else {
+    		this.name = name;
+            this.sellIn = sellIn;
+            this.quality = quality;
+    	}
+    		
     }
 
    @Override
    public String toString() {
         return this.name + ", " + this.sellIn + ", " + this.quality;
     }
-/*
-protected String getName() {
+
+public String getName() {
 	return name;
 }
 
-protected int getSellIn() {
+public int getSellIn() {
 	return sellIn;
 }
 
-protected int getQuality() {
+public int getQuality() {
 	return quality;
 }
 
-protected void setName(String name) {
+public void setName(String name) {
 	this.name = name;
 }
 
-protected void setSellIn(int sellIn) {
+public void setSellIn(int sellIn) {
 	this.sellIn = sellIn;
 }
 
-protected void setQuality(int quality) {
+public void setQuality(int quality) {
 	this.quality = quality;
-} */
+}
+
+
 }

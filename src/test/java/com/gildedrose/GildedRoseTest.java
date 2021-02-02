@@ -1,12 +1,15 @@
 package test.java.com.gildedrose;
-import main.java.com.gildedrose.Item;
-import main.java.com.gildedrose.ItemException;
-import main.java.com.gildedrose.SulfurasItem;
+
 
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
+import main.java.com.gildedrose.BackStageItem;
 import main.java.com.gildedrose.GildedRose;
+import main.java.com.gildedrose.Item;
+import main.java.com.gildedrose.ItemException;
+import main.java.com.gildedrose.SulfurasItem;
+
 
 // public Item(String name, int sellIn, int quality) {
 
@@ -29,6 +32,7 @@ public class GildedRoseTest {
 		   GildedRose app = new GildedRose(items); 
 		   app.updateQuality();
 		   assertEquals(19,app.getItems()[0].quality);
+		  // assertEquals(19,app.getItems()[0].getQuality());
 	}
 	
 	@Test
@@ -61,8 +65,18 @@ public class GildedRoseTest {
 		 app.updateQuality();
 		assertEquals(50,app.getItems()[0].quality);
 		items = null; app= null;		   
-	}
+	} 
 	
+	@Test
+	public void testBackstageItem() //to increase quality test
+	{
+		
+		 Item[] items = new Item[] { new BackStageItem("Backstage Passes",15, 20) };// quality 20 sellin 10 days
+		 GildedRose app = new GildedRose(items); 
+		 app.updateQuality();
+		 assertEquals(21,app.getItems()[0].quality);
+		   
+	}
 	@Test 
 	public void testSulfurasItem() //to increase quality test
 	{ 
@@ -76,7 +90,7 @@ public class GildedRoseTest {
 			items = new Item[] { new Item("Sulfuras, Hand of Ragnaros",15, 40) };	// Should we allow this ?
 			app = new GildedRose(items); 
 			app.updateQuality();
-			assertEquals(40,app.getItems()[0].quality);	  
+			assertEquals(80,app.getItems()[0].quality);	  
 			
 			items = null; app= null;			
 			items = new Item[] { new SulfurasItem("Sulfuras, Hand of Ragnaros") };	// This should be right way
@@ -85,9 +99,9 @@ public class GildedRoseTest {
 			assertEquals(80,app.getItems()[0].quality);	  
 	}	
 	
-	//@Test(expected = ItemException.class)
-	@Test
-	public void testUpdateItems() throws ItemException //Test all
+/*	@Test(expected = ItemException.class)
+	//@Test
+	public void testUpdateItems()  //Test all
 	{
 		 Item[] items = new Item[] {
 	                new Item("+5 Dexterity Vest", 10, 20), //
@@ -103,5 +117,5 @@ public class GildedRoseTest {
 	        GildedRose app = new GildedRose(items);
 	        app.updateQuality();
 	} 
-	
+	*/
 }

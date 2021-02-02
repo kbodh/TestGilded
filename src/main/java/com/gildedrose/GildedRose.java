@@ -85,11 +85,11 @@ public class GildedRose {
             }
             else //aged item increase quality
             {
-                if (items[i].quality < MAX_QUALITY_FACTOR) 
+                if (items[i].getQuality() < MAX_QUALITY_FACTOR) 
                 	increaseQuality(items[i]);                       //increase quality of aged items                                       
             }   
         	
-        	System.out.println("Item updated " + items[i].name + "  SellIn: "+ items[i].sellIn + "  Quality: " + items[i].quality );
+        	System.out.println("Item updated " + items[i].getName() + "  SellIn: "+ items[i].getSellIn() + "  Quality: " + items[i].getQuality() );
         }
     }
       
@@ -98,9 +98,21 @@ public class GildedRose {
 	 * @return
 	 */
 	private boolean eligibleToReduceQuality(Item item) {
-		if (!isBrie(item) && !isBackstage(item) && !isSulfuras(item) ||  isConjuredItem(item) )
-			return true;
+		//if (!isBrie(item) && !isBackstage(item) && !isSulfuras(item) ||  isConjuredItem(item) )
+		//if (!isBrie(item) && !isBackstage(item) && !isSulfuras(item) ||  isConjuredItem(item) )
+		if (!isBrie(item) && !isSulfuras(item) && isBackstageEligibletoReduce(item) ||  isConjuredItem(item)  )
+		return true;
 		else return false;
+	}
+
+	/**
+	 * @return
+	 */
+	private boolean isBackstageEligibletoReduce(Item item) {
+		  if(isBackstage(item) && item.sellIn==0)
+		return true;
+		  else return false;
+		  
 	}
 
 	/**
@@ -108,7 +120,7 @@ public class GildedRose {
 	 * @return
 	 */
 	private boolean isConjuredItem(Item item) {
-		if(item.name.contains("Conjured"))
+		if(item.getName().contains("Conjured"))
 			return true;
 			else return false;
 	}
@@ -119,21 +131,21 @@ public class GildedRose {
 		int qualityval = 0;
 		if(!isSulfuras(item)) 
 		{			
-			if(item.sellIn<6 )	 //5 or less days
-			qualityval = item.quality+3;
+			if(item.getSellIn()<6 )	 //5 or less days
+			qualityval = item.getQuality()+3;
 			else {
-			if(item.sellIn<=10)  //10 or less
-			qualityval = item.quality+2; 
+			if(item.getSellIn()<=10)  //10 or less
+			qualityval = item.getQuality()+2; 
 			}		
 			if(qualityval >  MAX_QUALITY_FACTOR) //if reached MAX
 			{
 			System.out.println("Error - Max Quality value reached. Setting quality value to 50");
-			item.quality =  MAX_QUALITY_FACTOR;
+			item.setQuality(MAX_QUALITY_FACTOR);
 			}
 			else
 			{ 
-				if(qualityval==0) item.quality +=1; // any other sellin days increase quality by 1		
-			    else item.quality = qualityval;
+				if(qualityval==0) item.setQuality(item.getQuality() + 1); // any other sellin days increase quality by 1		
+			    else item.setQuality(qualityval);
 			}
 			System.out.println("Qualityval " +  qualityval);
 		}	
@@ -146,11 +158,11 @@ public class GildedRose {
 	private void reduceSellIndayByOne(Item item) throws ItemException {
 		if(!isSulfuras(item))
 		{
-			item.sellIn = item.sellIn -1;		
+			item.setSellIn(item.getSellIn() -1);		
 		}		
 		else {	
-			System.out.println("Error - Sulfurus item can not be sold.");		
-			throw new ItemException("Error - Sulfurus item can not be sold");
+			//System.out.println("Error - Sulfurus item can not be sold.");		
+		//	throw new ItemException("Error - Sulfurus item can not be sold");
 		}
 		
 	}
@@ -158,17 +170,33 @@ public class GildedRose {
 	 * @param item
 	 */
 	private void reduceQuality(Item item) {
+		
+			
 		 int qualityval = 0;
-		  if (item.quality > 0 && !isSulfuras(item) && item.sellIn>0 && !isConjuredItem(item))    //sellindate not passed           	
-			  qualityval = item.quality - 1;		
-		  if (item.quality > 0 && !isSulfuras(item) && item.sellIn<0 || isConjuredItem(item))         //sellindate passed      	
-			  qualityval = item.quality - item.quality/2 ;
+		 
+		if(isBackstage(item))
+		{
+				if(item.sellIn==0)
+					item.setQuality(0);
+		}
+		 else{
+		  if(isBackstage(item) && item.sellIn==0)
+			  qualityval = 0;
+		  
+		 if (item.getQuality() > 0 && !isSulfuras(item) && item.getSellIn()>0 && !isConjuredItem(item) )    //sellindate not passed           	
+			  qualityval = item.getQuality() - 1;		
+		  
+		  if (item.getQuality() > 0 && !isSulfuras(item) && item.getSellIn()<0 || isConjuredItem(item) )        //sellindate passed      	
+			  qualityval = item.getQuality() - item.getQuality()/2 ;
+		  
+		
 		  
 		  if( qualityval < 0 ) { //if negative value -- set it to 0 --no value
-				item.quality= 0; //item has no value
+				item.setQuality(0); //item has no value
 				System.out.println("ERROR - Item has negative value " + qualityval );	
 			}
-			else item.quality = qualityval;					
+			else item.setQuality(qualityval);
+		 }
 	}
 	
 	/**
@@ -176,7 +204,7 @@ public class GildedRose {
 	 * @return
 	 */
 	private boolean isSulfuras(Item i) {
-		   if (i.name.contains("Sulfuras"))
+		   if (i.getName().contains("Sulfuras"))
 		   return true;
 		   else return false;		   
 	}
@@ -184,15 +212,19 @@ public class GildedRose {
 	 * @return
 	 */
 	private boolean isBackstage(Item i) {
-		if (i.name.contains("Backstage passes"))
+	
+		if (i.getName().contains("Backstage Passes"))
+		{
+			System.out.print("Backstage item received!");
 			return true;
+		}
 			else return false;
 	}
 	/**
 	 * @return
 	 */
 	private boolean isBrie(Item i) {
-		if (i.name.contains("Aged Brie"))
+		if (i.getName().contains("Aged Brie"))
 		return true;
 		else return false;
 	} 

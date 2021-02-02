@@ -1,0 +1,52 @@
+package main.java.com.gildedrose;
+
+public class Item1 {
+	 
+    /* Kirti changes
+     *  this needs to be public for the testing	 */
+	private String name; //name
+    private int sellIn; //no of days
+    private int quality; //value
+	
+    private Item1(String name, int sellIn, int quality) {    	
+        this.name = name;
+        this.sellIn = sellIn;
+        this.quality = quality;
+    }
+
+    static Item1 createItem(String name, int sellIn, int quality)
+    {
+    	if(name.contains("Sulfuras"))
+    	return new Item1(name,0,80);
+    	else  return new Item1(name, sellIn, quality);
+    }
+    
+   @Override
+   public String toString() {
+        return this.name + ", " + this.sellIn + ", " + this.quality;
+    }
+/*
+protected String getName() {
+	return name;
+}
+
+protected int getSellIn() {
+	return sellIn;
+}
+
+protected int getQuality() {
+	return quality;
+}
+
+protected void setName(String name) {
+	this.name = name;
+}
+
+protected void setSellIn(int sellIn) {
+	this.sellIn = sellIn;
+}
+
+protected void setQuality(int quality) {
+	this.quality = quality;
+} */
+}
