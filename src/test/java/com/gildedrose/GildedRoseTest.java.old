@@ -5,9 +5,6 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import main.java.com.gildedrose.BackStageItem;
-import main.java.com.gildedrose.BrieItem;
-import main.java.com.gildedrose.ConjuredItem;
-import main.java.com.gildedrose.GeneralItem;
 import main.java.com.gildedrose.GildedRose;
 import main.java.com.gildedrose.Item;
 import main.java.com.gildedrose.ItemException;
@@ -31,41 +28,39 @@ public class GildedRoseTest {
 	public void testDecreaseQuality() throws ItemException //decrease quality test
 	{
 		 
-		// Item[] items = new Item[] { new Item("Cheese",10,20) };// quality 20 sellin 10 days normal item
-		 Item[] items = new Item[] { new GeneralItem("Cheese",10,20) };// quality 20 sellin 10 days normal item
+		 Item[] items = new Item[] { new Item("Cheese",10,20) };// quality 20 sellin 10 days normal item
 		   GildedRose app = new GildedRose(items); 
 		   app.updateQuality();
-		   assertEquals(19, ((GeneralItem)(app.getItems()[0]) ).quality);
+		   assertEquals(19,app.getItems()[0].quality);
 		  // assertEquals(19,app.getItems()[0].getQuality());
 	}
-	
 	
 	@Test
 	public void testIncreaseQualityBrie() //to increase quality test
 	{
 		
-		 Item[] items = new Item[] { new BrieItem("Aged Brie",15, 20) };// quality 20 sellin 10 days
+		 Item[] items = new Item[] { new Item("Aged Brie",15, 20) };// quality 20 sellin 10 days
 		 GildedRose app = new GildedRose(items); 
 		 app.updateQuality();
 		 assertEquals(21,app.getItems()[0].quality);
 		   
 		items = null; app= null;
 		
-		items = new Item[] { new BrieItem("Aged Brie",10, 20) };// quality 20 sellin 10 days
+		items = new Item[] { new Item("Aged Brie",10, 20) };// quality 20 sellin 10 days
 		app = new GildedRose(items);	 
 		 app.updateQuality();
 		assertEquals(22,app.getItems()[0].quality);
 		 
 		items = null; app= null;
 		
-		items = new Item[] { new BrieItem("Aged Brie",5, 20) };// quality 20 sellin 10 days
+		items = new Item[] { new Item("Aged Brie",5, 20) };// quality 20 sellin 10 days
 		app = new GildedRose(items);	 
 		 app.updateQuality();
 		assertEquals(23,app.getItems()[0].quality);
 		   
 		items = null; app= null;
 		
-		items = new Item[] { new BrieItem("Aged Brie",5, 49) };// quality 20 sellin 10 days
+		items = new Item[] { new Item("Aged Brie",5, 49) };// quality 20 sellin 10 days
 		app = new GildedRose(items); 
 		 app.updateQuality();
 		assertEquals(50,app.getItems()[0].quality);
@@ -79,40 +74,29 @@ public class GildedRoseTest {
 		 Item[] items = new Item[] { new BackStageItem("Backstage Passes",15, 20) };// quality 20 sellin 10 days
 		 GildedRose app = new GildedRose(items); 
 		 app.updateQuality();
-		// assertEquals(21,app.getItems()[0].quality);
-		  assertEquals(21, ((BackStageItem)(app.getItems()[0]) ).quality);
+		 assertEquals(21,app.getItems()[0].quality);
 		   
 	}
 	@Test 
 	public void testSulfurasItem() //to increase quality test
 	{ 
 		Item[] items = null;		   
-		items = new Item[] { new SulfurasItem("Sulfuras, Hand of Ragnaros",15, 80) };	// quality 20 sellin 10 days
+		items = new Item[] { new Item("Sulfuras, Hand of Ragnaros",15, 80) };	// quality 20 sellin 10 days
 		 GildedRose app = new GildedRose(items); 
 		 app.updateQuality();
 		 assertEquals(80,app.getItems()[0].quality);	 
 				
 			items = null; app= null;			   
-			items = new Item[] { new SulfurasItem("Sulfuras, Hand of Ragnaros",15, 40) };	// Should we allow this ?
+			items = new Item[] { new Item("Sulfuras, Hand of Ragnaros",15, 40) };	// Should we allow this ?
 			app = new GildedRose(items); 
 			app.updateQuality();
 			assertEquals(80,app.getItems()[0].quality);	  
 			
 			items = null; app= null;			
-			items = new Item[] { new SulfurasItem("Sulfuras, Hand of Ragnaros", 0, 0) };	// This should be right way
+			items = new Item[] { new SulfurasItem("Sulfuras, Hand of Ragnaros") };	// This should be right way
 			app = new GildedRose(items); 
 			app.updateQuality();
 			assertEquals(80,app.getItems()[0].quality);	  
-	}	
-	
-	@Test 
-	public void testConjuredItem() //to increase quality test
-	{ 
-		Item[] items = null;		   
-		items = new Item[] { new ConjuredItem("Conjured Mana Cake", 3, 6) };	// quality 20 sellin 10 days
-		 GildedRose app = new GildedRose(items); 
-		 app.updateQuality();
-		 assertEquals(3,app.getItems()[0].quality);				  
 	}	
 	
 /*	@Test(expected = ItemException.class)
